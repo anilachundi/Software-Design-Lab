@@ -36,9 +36,33 @@ app.use(async (req, res, next) => {
 // http://localhost:8080/testRoute
 app.get('/testRoute', async (req, res) => { // test get request to return "hello world" as a message in JSON
     res.status(200).send({message: "Hello world"});
+})
 
-    name = req.body.name
 
+// GET
+// http://localhost:8080/testConnection
+app.get('/testConnection', async (req, res) => { // test get request to return "hello world" as a message in JSON
+     // connect to collection and retrieve dummy document
+     try {
+        const users = req.db.collection('Recipes');
+        const query = { name: "abc" };
+        const user = await users.findOne(query);
+        
+        // if user is not found, return error message, otherwise return error
+        if (!user) {
+            res.status(404).send({message : "dummy document not found"});
+        } else {
+            res.status(200).send({user : user});
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({message : `An error ocurred trying to retrieve data`});
+    } finally {
+        if (req.db) {
+            await req.db.client.close();
+        }
+    }
 })
 
 app.post('/addrecipe', async (req, res)=> {
@@ -64,5 +88,4 @@ app.post('/addrecipe', async (req, res)=> {
         }
     }
 }); 
-
 
