@@ -16,22 +16,8 @@ const Stack = createNativeStackNavigator();
 const RootStack = () =>  {
     return (
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: 'transparent'
-            },
-            headerTintColor: tertiary,
-            headerTransparent: true,
-            headerTitle: '',
-            headerLeftContainerStyle: {
-              paddingLeft: 20
-            }
-          }}
-          initialRouteName="Welcome"
-        
-        >
-          <Stack.Screen name="Welcome" children={() => (<Welcome></Welcome>)} />
+        <Stack.Navigator initialRouteName="Welcome">
+          <Stack.Screen name="Welcome" component = {Welcome} />
           <Stack.Screen name="Recipes" children={() => (<Recipes></Recipes>)} />
           <Stack.Screen name="Calendar" children={() => (<Calendar></Calendar>)} />
         </Stack.Navigator>
@@ -40,3 +26,15 @@ const RootStack = () =>  {
   }
   
   export default RootStack;
+
+  // screenOptions={{
+  //   headerStyle: {
+  //     backgroundColor: 'transparent'
+  //   },
+  //   headerTintColor: tertiary,
+  //   headerTransparent: true,
+  //   headerTitle: '',
+  //   headerLeftContainerStyle: {
+  //     paddingLeft: 20
+  //   }
+  // }}

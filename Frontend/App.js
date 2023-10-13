@@ -1,29 +1,87 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 //import Button from './components/Button';
 import React from 'react';
-import RootStack from './navigators/RootStack'; //React navigation stack
+//import RootStack from './navigators/RootStack'; //React navigation stack
 
-function App() {
+//import * as React from 'react';
+//import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+function WelcomeScreen({navigation}) {
   return (
     <View style={styles.container}>
-    <RootStack />
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text>Test text here</Text>
-      <StatusBar style="auto" />
+      <Text>Welcome!</Text>
+      <Text>Start Tracking Your Meals</Text>
+      <Button
+        title="Go to My Recipes"
+        onPress={() => navigation.navigate('Recipe')}
+      />
     </View>
   );
 }
+
+function RecipeScreen({navigation}) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>No Recipes yet!</Text>
+      <Button
+        title="Calendar View"
+        onPress={() => navigation.navigate('Calendar')}
+      />
+    </View>
+  );
+}
+
+function CalendarScreen({navigation}) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>You have 0 Recipes</Text>
+      <Text>Input a Recipe before attempting Calendar View</Text>
+      <Button
+        title="Return to Home"
+        onPress={() => navigation.navigate('Welcome')}
+      />
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Welcome" component={WelcomeScreen} />
+        <Stack.Screen name="Recipe" component={RecipeScreen} />
+        <Stack.Screen name="Calendar" component={CalendarScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
 export default App;
+
+// function App() {
+//   return (
+//     <View style={styles.container}>
+//       <RootStack />
+//       <Text>Test text here</Text> 
+//     </View>
+//   );
+// }
+// export default App;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#10B981',
     alignItems: 'center',
     justifyContent: 'center',
   },
 });
-
+{/* <Text>Test text here</Text>
+<StatusBar style="auto" /> */}
 
