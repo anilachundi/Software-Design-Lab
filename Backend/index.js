@@ -146,3 +146,33 @@ app.post('/add-recipe', async (req, res)=> {
     }
 }); 
 
+
+app.get('/getAllUsers', async (req, res) => {
+    try {
+        const collection = req.db.collection('Users'); 
+        const items = await collection.find({}).toArray();
+        res.status(200).send(items); 
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({message : `An error ocurred trying to retrieve Users database`});
+    } finally {
+        if (req.db) {
+            await req.db.client.close();
+        }
+    }
+})
+
+app.get('/getAllRecipes', async (req, res) => {
+    try {
+        const collection = req.db.collection('Recipes'); 
+        const items = await collection.find({}).toArray();
+        res.status(200).send(items); 
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({message : `An error ocurred trying to retrieve Recipes database`});
+    } finally {
+        if (req.db) {
+            await req.db.client.close();
+        }
+    }
+})
