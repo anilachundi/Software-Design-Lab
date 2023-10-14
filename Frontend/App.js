@@ -10,6 +10,13 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
+
+
+import TableExample from './components/DataTable'; 
+import GridExample from './components/Grid';
+
+
 function WelcomeScreen({navigation}) {
   return (
     <View style={styles.container}>
@@ -23,10 +30,13 @@ function WelcomeScreen({navigation}) {
   );
 }
 
+
 function RecipeScreen({navigation}) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>No Recipes yet!</Text>
+      <Text>Your Recipes</Text>
+      <TableExample />{}
+      
       <Button
         title="Calendar View"
         onPress={() => navigation.navigate('Calendar')}
@@ -38,8 +48,8 @@ function RecipeScreen({navigation}) {
 function CalendarScreen({navigation}) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>You have 0 Recipes</Text>
-      <Text>Input a Recipe before attempting Calendar View</Text>
+      <Text>Calendar</Text>
+      <GridExample />{}
       <Button
         title="Return to Home"
         onPress={() => navigation.navigate('Welcome')}
