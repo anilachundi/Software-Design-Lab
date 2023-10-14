@@ -3,14 +3,19 @@ import React from 'react';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#10B981',
       alignItems: 'center',
       justifyContent: 'center',
     },
 });
   
 const Welcome = ({ navigation }) => {
-    <Text>Welcome!</Text>
+  console.log('Welcome component rendered');
+  return (
+    <View style={styles.container}>
+      <Text>Welcome!</Text>
+    </View>
+  );
 }
 
 export default Welcome;
