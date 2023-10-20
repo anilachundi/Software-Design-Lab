@@ -7,19 +7,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //screens
-import Recipes from './../pages/Recipes';
-import Calendar from './../pages/Calendar';
-import Welcome from './../pages/Welcome';
+import RecipeScreen from '../pages/Recipes';
+import CalendarScreen from '../pages/Calendar';
+import WelcomeScreen from '../pages/Welcome';
 
 const Stack = createNativeStackNavigator();
 
 const RootStack = () =>  {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Welcome">
-          <Stack.Screen name="Welcome" component = {Welcome} />
-          <Stack.Screen name="Recipes" children={() => (<Recipes></Recipes>)} />
-          <Stack.Screen name="Calendar" children={() => (<Calendar></Calendar>)} />
+        <Stack.Navigator>
+          <Stack.Screen name="Welcome" component = {WelcomeScreen}  />
+          <Stack.Screen name="Recipe" component = {RecipeScreen}  />
+          <Stack.Screen name="Calendar" component = {CalendarScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
