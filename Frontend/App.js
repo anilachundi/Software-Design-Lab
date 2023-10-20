@@ -11,53 +11,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-
-
-import TableExample from './components/DataTable'; 
-import GridExample from './components/Grid';
-
-
-function WelcomeScreen({navigation}) {
-  return (
-    <View style={styles.container}>
-      <Text>Welcome!</Text>
-      <Text>Start Tracking Your Meals</Text>
-      <Button
-        title="Go to My Recipes"
-        onPress={() => navigation.navigate('Recipe')}
-      />
-    </View>
-  );
-}
-
-
-function RecipeScreen({navigation}) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Your Recipes</Text>
-      <TableExample />{}
-      
-      <Button
-        title="Calendar View"
-        onPress={() => navigation.navigate('Calendar')}
-      />
-    </View>
-  );
-}
-
-function CalendarScreen({navigation}) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Calendar</Text>
-      <GridExample />{}
-      <Button
-        title="Return to Home"
-        onPress={() => navigation.navigate('Welcome')}
-      />
-    </View>
-  );
-}
-
 const Stack = createNativeStackNavigator();
 
 function App() {

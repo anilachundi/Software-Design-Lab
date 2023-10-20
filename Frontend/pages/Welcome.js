@@ -18,4 +18,19 @@ const Welcome = ({ navigation }) => {
   );
 }
 
+
+const WelcomeScreen = ({navigation}) => {
+  return (
+    <View style={styles.container}>
+      <Text>Welcome!</Text>
+      <Text>Start Tracking Your Meals</Text>
+      <Button
+        title="Go to My Recipes"
+        onPress={() => navigation.navigate('Recipe')}
+      />
+      <Text>aaalajsdflk</Text>
+    </View>
+  );
+}
+
 export default Welcome;
