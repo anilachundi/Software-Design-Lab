@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 //import Button from './components/Button';
 import React from 'react';
-//import RootStack from './navigators/RootStack'; //React navigation stack
+import RootStack from './navigators/RootStack'; //React navigation stack
 
 //import * as React from 'react';
 //import { View, Text } from 'react-native';
@@ -14,31 +14,16 @@ import RecipeScreen from './pages/Recipes';
 import CalendarScreen from './pages/Calendar';
 
 
-const Stack = createNativeStackNavigator();
+
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Recipe" component={RecipeScreen} />
-        <Stack.Screen name="Calendar" component={CalendarScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <RootStack></RootStack>
   );
 }
 
 export default App;
 
-// function App() {
-//   return (
-//     <View style={styles.container}>
-//       <RootStack />
-//       <Text>Test text here</Text> 
-//     </View>
-//   );
-// }
-// export default App;
 
 const styles = StyleSheet.create({
   container: {

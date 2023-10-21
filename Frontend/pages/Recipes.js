@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
-import TableExample from './components/DataTable'; 
+import TableExample from '../components/DataTable'; 
+import { useNavigation } from '@react-navigation/native';
+
 
 const styles = StyleSheet.create({
     container: {
@@ -11,7 +13,8 @@ const styles = StyleSheet.create({
     },
 });
 
-const RecipeScreen = ({navigation}) => {
+const RecipeScreen = () => {
+  const navigation = useNavigation()
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Your Recipes</Text>

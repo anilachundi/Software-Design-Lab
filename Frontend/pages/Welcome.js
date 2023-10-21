@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
-
+import { useNavigation } from '@react-navigation/native';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -10,17 +10,11 @@ const styles = StyleSheet.create({
     },
 });
   
-const Welcome = ({ navigation }) => {
-  console.log('Welcome component rendered');
-  return (
-    <View style={styles.container}>
-      <Text>Welcome!</Text>
-    </View>
-  );
-}
 
 
-const WelcomeScreen = ({navigation}) => {
+
+const WelcomeScreen = () => {
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <Text>Welcome!</Text>
@@ -29,7 +23,7 @@ const WelcomeScreen = ({navigation}) => {
         title="Go to My Recipes"
         onPress={() => navigation.navigate('Recipe')}
       />
-      <Text>aaalajsdflk</Text>
+      <Text></Text>
     </View>
   );
 }
