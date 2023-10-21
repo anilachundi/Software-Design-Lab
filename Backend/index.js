@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express(); 
 const connectFunction = require('./database');
+const axios = require('axios');
 
 app.use(express.json())
 
@@ -104,7 +105,7 @@ app.post('/add-user', async(req, res)=> {
 	    "recipe" : {
 		    "user_id" : "abcexampleid",
 		    "name" : "Fried Rice",
-		    "ingredient_list" : [ "White Rice", "Soy Sauce", "Green Onions"]
+		    "ingredient_list" : [ 'rice', 'carrot', 'onion']
 	    },
 	    "username" : "abcExampleUser"
     }
@@ -112,6 +113,45 @@ app.post('/add-user', async(req, res)=> {
 app.post('/add-recipe', async (req, res)=> {
     const newRecipe = req.body.recipe; 
     const userToInsert = req.body.username;
+
+    const apiKey = '8818bbeb9ec555d9a37cb91ee663472b';
+    const applicationId = '1432197e';
+    const apiEndpoint = 'https://trackapi.nutritionix.com/v2/search/instant';
+
+    const ingredients = newRecipe.ingredient_list;
+
+    data = newRecipe;
+
+    const headers = {
+        'x-app-id': applicationId,
+        'x-app-key': apiKey,
+    }
+
+        for (const ingredient of ingredients) {
+            const params = {
+                query: ingredient,
+            };
+
+            axios.get(apiEndpoint, {
+                params,
+                headers,
+            })
+            .then((response) => {
+                // if (!response.ok) {
+                //     throw new Error('Network response was not ok');
+                // }
+    
+                // Handle the API response 
+                data = response.data.common[0];
+                console.log(data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        }
+
+
+    //finding specified user
     console.log(userToInsert);
     try {
         const users = req.db.collection("Users");
@@ -125,15 +165,16 @@ app.post('/add-recipe', async (req, res)=> {
     }
 
 
+
     try {
         // inserts new recipe into the database
         const recipe = req.db.collection("Recipes"); 
         newRecipe.user_id = queried_user_id;
         console.log("connected to collection");
-        await recipe.insertOne(newRecipe); 
+        await recipe.insertOne(data); 
         res.status(200).send({
             message : "new recipe was added successfully",
-            recipe : newRecipe
+            recipe : data
         }); 
     } catch (err) {
         console.log(err); 
