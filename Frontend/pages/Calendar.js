@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
 import GridExample from './components/Grid';
 
@@ -15,6 +15,7 @@ const CalendarScreen = ({navigation}) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Calendar</Text>
+      <Text>ajsdl;kfjlkasjfdl</Text>
       <GridExample />{}
       <Button
         title="Return to Home"
