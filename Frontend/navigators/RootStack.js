@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RecipeScreen from '../pages/Recipes';
 import CalendarScreen from '../pages/Calendar';
 import WelcomeScreen from '../pages/Welcome';
+import LoginScreen from '../pages/Login';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,7 @@ const RootStack = () =>  {
     return (
       
         <Stack.Navigator>
+          <Stack.Screen name="Login" component = {LoginScreen} />
           <Stack.Screen name="Welcome" component = {WelcomeScreen}  />
           <Stack.Screen name="Recipe" component = {RecipeScreen}  />
           <Stack.Screen name="Calendar" component = {CalendarScreen} />

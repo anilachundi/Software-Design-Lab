@@ -98,14 +98,14 @@ app.post('/add-user', async(req, res)=> {
 })
 
 // POST
-// http://localhost:8080/addrecipe
+// http://localhost:8080/add-recipe
 // MAKE SURE TO INCLUDE JSON OBJECT TO INSERT IN REQUEST BODY
 /* Example JSON:
     {
 	    "recipe" : {
 		    "user_id" : "abcexampleid",
 		    "name" : "Fried Rice",
-		    "ingredient_list" : [ 'rice', 'carrot', 'onion']
+		    "ingredient_list" : [ "rice", "carrot", "onion"]
 	    },
 	    "username" : "abcExampleUser"
     }
@@ -116,40 +116,48 @@ app.post('/add-recipe', async (req, res)=> {
 
     const apiKey = '8818bbeb9ec555d9a37cb91ee663472b';
     const applicationId = '1432197e';
-    const apiEndpoint = 'https://trackapi.nutritionix.com/v2/search/instant';
+    const apiIDEndpoint = 'https://trackapi.nutritionix.com/v2/search/instant';
+    const apiNutritionEndpoint = 'https://trackapi.nutritionix.com/v2/natural/nutrients';
 
     const ingredients = newRecipe.ingredient_list;
-
-    data = newRecipe;
 
     const headers = {
         'x-app-id': applicationId,
         'x-app-key': apiKey,
+        'Content-Type': 'application/json',
     }
 
-        for (const ingredient of ingredients) {
-            const params = {
-                query: ingredient,
-            };
-
-            axios.get(apiEndpoint, {
-                params,
+    ids = [];
+    data = newRecipe;
+    for (const ingredient of ingredients) {
+        try {
+            //make get request to v2/search/instant to find item id
+            const idResponse = await axios.get(apiIDEndpoint, {
+                params: {
+                    query: ingredient,
+                },
                 headers,
-            })
-            .then((response) => {
-                // if (!response.ok) {
-                //     throw new Error('Network response was not ok');
-                // }
-    
-                // Handle the API response 
-                data = response.data.common[0];
-                console.log(data);
-            })
-            .catch(err => {
-                console.error(err);
             });
-        }
 
+            const id = idResponse.data.common[0].food_name;
+
+            //make post request to v2/natural/nutrients (with id as query) to get nutritional info
+            const nutritionResponse = await axios.post(apiNutritionEndpoint, 
+                {
+                query: id,
+                }, 
+                {
+                headers,
+                }
+            );
+            
+            //set nutritional info as
+            data = nutritionResponse.data;
+            console.log(data);
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     //finding specified user
     console.log(userToInsert);
