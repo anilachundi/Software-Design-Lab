@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {Colors} from './../components/styles'
-const {primary, tertiary} = Colors;
 //react navigation for navigating between pages
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //screens
@@ -15,13 +12,12 @@ const Stack = createNativeStackNavigator();
 
 const RootStack = () =>  {
     return (
-      <NavigationContainer>
+      
         <Stack.Navigator>
           <Stack.Screen name="Welcome" component = {WelcomeScreen}  />
           <Stack.Screen name="Recipe" component = {RecipeScreen}  />
           <Stack.Screen name="Calendar" component = {CalendarScreen} />
         </Stack.Navigator>
-      </NavigationContainer>
     );
   }
   

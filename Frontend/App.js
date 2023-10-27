@@ -1,24 +1,37 @@
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-//import Button from './components/Button';
-import React from 'react';
-import RootStack from './navigators/RootStack'; //React navigation stack
-
-//import * as React from 'react';
-//import { View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import WelcomeScreen from './pages/Welcome';
-import RecipeScreen from './pages/Recipes';
-import CalendarScreen from './pages/Calendar';
+import RootStack from './navigators/RootStack'; //React navigation stack
+import AuthStack from './navigators/AuthStack';
+
+
+
+async function isLoggedIn() {
+  try {
+    const username = await SecureStore.getItemAsync('username');
+    const password = await SecureStore.getItemAsync('password');
+    // TODO: Validate username and password are actually ok by checking the backend database
+    const dummyVar = await SecureStore.getItemAsync('dummyVar');
+    return dummyVar;
+    // return username && password;
+  } catch(err) {
+    return false;
+  }
+}
 
 
 
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  useEffect (() => {
+    
+  })
   return (
-    <RootStack></RootStack>
+    <NavigationContainer>
+      {loggedIn ? <RootStack></RootStack> : <AuthStack></AuthStack>}
+    </NavigationContainer>
   );
 }
 
