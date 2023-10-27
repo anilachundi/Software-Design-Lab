@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -9,13 +10,22 @@ const styles = StyleSheet.create({
     },
 });
   
-const Welcome = ({ navigation }) => {
-  console.log('Welcome component rendered');
+
+
+
+const WelcomeScreen = () => {
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <Text>Welcome!</Text>
+      <Text>Start Tracking Your Meals</Text>
+      <Button
+        title="Go to My Recipes"
+        onPress={() => navigation.navigate('Recipe')}
+      />
+      <Text></Text>
     </View>
   );
 }
 
-export default Welcome;
+export default WelcomeScreen;
