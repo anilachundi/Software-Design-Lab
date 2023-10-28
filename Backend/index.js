@@ -127,11 +127,11 @@ app.post('/add-recipe', async (req, res)=> {
         'Content-Type': 'application/json',
     }
 
-    ids = [];
+    const allNutritionData = [];
     data = newRecipe;
     for (const ingredient of ingredients) {
         try {
-            //make get request to v2/search/instant to find item id
+            // Make a get request to v2/search/instant to find item id
             const idResponse = await axios.get(apiIDEndpoint, {
                 params: {
                     query: ingredient,
@@ -141,20 +141,17 @@ app.post('/add-recipe', async (req, res)=> {
 
             const id = idResponse.data.common[0].food_name;
 
-            //make post request to v2/natural/nutrients (with id as query) to get nutritional info
-            const nutritionResponse = await axios.post(apiNutritionEndpoint, 
-                {
+            // Make a post request to v2/natural/nutrients (with id as query) to get nutritional info
+            const nutritionResponse = await axios.post(apiNutritionEndpoint, {
                 query: id,
-                }, 
-                {
+            }, {
                 headers,
-                }
-            );
+            });
+
+            // Add the nutritional info to the array
+            allNutritionData.push(nutritionResponse.data);
             
-            //set nutritional info as
-            data = nutritionResponse.data;
-            console.log(data);
-        } catch (err) {
+        }  catch (err) {
             console.error(err);
         }
     }
@@ -178,6 +175,7 @@ app.post('/add-recipe', async (req, res)=> {
         // inserts new recipe into the database
         const recipe = req.db.collection("Recipes"); 
         newRecipe.user_id = queried_user_id;
+        newRecipe.nutrition_data = allNutritionData;
         console.log("connected to collection");
         await recipe.insertOne(data); 
         res.status(200).send({
