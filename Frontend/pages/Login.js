@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import React, {useState} from 'react';
 import GridExample from '../components/Grid';
 import { useNavigation } from '@react-navigation/native';
-
+import { useLoginContext } from '../components/LoginContext';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -42,9 +42,19 @@ const styles = StyleSheet.create({
 });
 
 const LoginScreen = () => {
-    const navigation = useNavigation()
-    const [username, setUsername] = useState()
-    const [password, setPassword] = useState()
+    const { updateLoginState } = useLoginContext();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+
+    async function pressLoginUpdate() {
+        const newLoginState = {username : username, password : password};
+        try {
+            await updateLoginState(newLoginState);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <View style={styles.container}> 
             <Text style={styles.title}> Ready to login? </Text>
@@ -54,7 +64,7 @@ const LoginScreen = () => {
             <View style ={styles.inputView}> 
                 <TextInput style={styles.inputText} placeholder="password" placeholderTextColor="#003f5c" onChangeText={text => setPassword(text)}/>
             </View>
-            <Button title="Login" style={styles.loginButton}> </Button>
+            <Button title="Login" style={styles.loginButton} onPress={pressLoginUpdate}> </Button>
             <Text style= {styles.inputText}> username: {username} password: {password} </Text>
         </View>
 

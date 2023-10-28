@@ -1,37 +1,30 @@
 import 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import RootStack from './navigators/RootStack'; //React navigation stack
 import AuthStack from './navigators/AuthStack';
+import { LoginProvider, useLoginContext } from './components/LoginContext';
 
 
 
-async function isLoggedIn() {
-  try {
-    const username = await SecureStore.getItemAsync('username');
-    const password = await SecureStore.getItemAsync('password');
-    // TODO: Validate username and password are actually ok by checking the backend database
-    const dummyVar = await SecureStore.getItemAsync('dummyVar');
-    return dummyVar;
-    // return username && password;
-  } catch(err) {
-    return false;
-  }
+// wrapper component needed to access the LoginContext provided by the LoginProvider
+function StackChooser() {
+  const { loginState } = useLoginContext();
+  return (
+    <NavigationContainer>
+        {loginState ? <RootStack></RootStack> : <AuthStack></AuthStack>}
+    </NavigationContainer>
+  )
 }
 
 
 
-
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  useEffect (() => {
-    
-  })
   return (
-    <NavigationContainer>
-      {loggedIn ? <RootStack></RootStack> : <AuthStack></AuthStack>}
-    </NavigationContainer>
+    <LoginProvider>
+      <StackChooser/>
+    </LoginProvider>
   );
 }
 
