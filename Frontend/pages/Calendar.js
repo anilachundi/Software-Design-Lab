@@ -18,6 +18,7 @@ const CalendarScreen = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Calendar</Text>
+      <Text>ajsdl;kfjlkasjfdl</Text>
       <GridExample />{}
       <Button
         title="Return to Home"

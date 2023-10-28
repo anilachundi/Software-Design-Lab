@@ -1,21 +1,30 @@
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-//import Button from './components/Button';
-import React from 'react';
-import RootStack from './navigators/RootStack'; //React navigation stack
-
-//import * as React from 'react';
-//import { View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import RootStack from './navigators/RootStack'; //React navigation stack
+import AuthStack from './navigators/AuthStack';
+import { LoginProvider, useLoginContext } from './components/LoginContext';
 
+
+
+// wrapper component needed to access the LoginContext provided by the LoginProvider
+function StackChooser() {
+  const { loginState } = useLoginContext();
+  return (
+    <NavigationContainer>
+        {loginState ? <RootStack></RootStack> : <AuthStack></AuthStack>}
+    </NavigationContainer>
+  )
+}
 
 
 
 function App() {
   return (
-    <RootStack></RootStack>
+    <LoginProvider>
+      <StackChooser/>
+    </LoginProvider>
   );
 }
 
