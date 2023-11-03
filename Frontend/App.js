@@ -7,7 +7,6 @@ import AuthStack from './navigators/AuthStack';
 import { LoginProvider, useLoginContext } from './components/LoginContext';
 
 
-
 // wrapper component needed to access the LoginContext provided by the LoginProvider
 function StackChooser() {
   const { loginState } = useLoginContext();

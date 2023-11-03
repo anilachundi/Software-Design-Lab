@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
 import GridExample from '../components/Grid';
 import { useNavigation } from '@react-navigation/native';
-
+import NavBar from '../components/Navbar'
 
 const styles = StyleSheet.create({
     container: {
@@ -14,16 +14,11 @@ const styles = StyleSheet.create({
 });
   
 const CalendarScreen = () => {
-  const navigation = useNavigation()
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Calendar</Text>
-      <Text>ajsdl;kfjlkasjfdl</Text>
       <GridExample />{}
-      <Button
-        title="Return to Home"
-        onPress={() => navigation.navigate('Welcome')}
-      />
+      <NavBar></NavBar>
     </View>
   );
 }

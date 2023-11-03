@@ -1,31 +1,26 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import TableExample from '../components/DataTable'; 
-import { useNavigation } from '@react-navigation/native';
+import NavBar from '../components/Navbar'
 
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-});
 
 const RecipeScreen = () => {
-  const navigation = useNavigation()
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={styles.container}>
       <Text>Your Recipes</Text>
       <TableExample />{}
-      <Button
-        title="Calendar View"
-        onPress={() => navigation.navigate('Calendar')}
-      />
+      <NavBar></NavBar>
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default RecipeScreen;
