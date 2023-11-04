@@ -71,14 +71,24 @@ app.get('/test-connection', async (req, res) => { // test get request to return 
 // MAKE SURE TO INCLUDE JSON OBJECT TO INSERT IN REQUEST BODY
 /* Example JSON:
     {
-	    "username" : "abcExampleUserasdf",
-	    "passowrd" : "badPasswordlalksjdf2"
+	    "user" : {
+            "username" : "abcExampleUserasdf",
+	        "password" : "badPasswordlalksjdf2"
+        }
     }
 
 */
 app.post('/add-user', async(req, res)=> {
     const newUser = req.body.user;
     try {
+        current_users = await axios.get('http://localhost:8080/getAllUsers');
+        //console.log(current_users.data);
+        for (const user of current_users.data) {
+            if (user.username == newUser.username) {
+                res.status(422).send({message : "username already exists"});
+            }
+        }
+
         // inserts new user into the database
         const users = req.db.collection("Users"); 
         await users.insertOne(newUser); 
@@ -149,7 +159,8 @@ app.post('/add-recipe', async (req, res)=> {
             });
 
             // Add the nutritional info to the array
-            allNutritionData.push(nutritionResponse.data);
+            console.log(nutritionResponse.data.foods[0])
+            allNutritionData.push(nutritionResponse.data.foods[0].nf_calories);
             
         }  catch (err) {
             console.error(err);
@@ -163,7 +174,7 @@ app.post('/add-recipe', async (req, res)=> {
         console.log("connected to users collection");
         const query = { username: userToInsert };
         const user = await users.findOne(query);
-        var queried_user_id = user._id;
+        var queried_user_id = user.username;
     } catch (err) {
         console.log(err);
         res.status(422).send({message : "an error occurred attempting to find the specified user"});
@@ -209,10 +220,21 @@ app.get('/getAllUsers', async (req, res) => {
     }
 })
 
+// GET
+// http://localhost:8080/getAllRecipes
+// MAKE SURE TO INCLUDE JSON OBJECT TO INSERT IN REQUEST BODY
+/* Example JSON:
+    {
+	    "username" : "abcExampleUser"
+    }
+*/
 app.get('/getAllRecipes', async (req, res) => {
     try {
+        const user = req.body.username;
+
         const collection = req.db.collection('Recipes'); 
-        const items = await collection.find({}).toArray();
+        
+        const items = await collection.find({user_id: user}).toArray();
         res.status(200).send(items); 
     } catch (err) {
         console.log(err);
