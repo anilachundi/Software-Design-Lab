@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import React, {useState} from 'react';
 import { useLoginContext } from '../components/LoginContext';
-import { useNavigation } from '@react-navigation/native';
 
 
 const styles = StyleSheet.create({
@@ -42,12 +41,10 @@ const styles = StyleSheet.create({
     },
 });
 
-
-const LoginScreen = () => {
+const AccountScreen = () => {
     const { updateLoginState } = useLoginContext();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
-    const navigation = useNavigation();
 
     async function pressLoginUpdate() {
         const newLoginState = {username : username, password : password};
@@ -60,18 +57,17 @@ const LoginScreen = () => {
 
     return (
         <View style={styles.container}> 
-            <Text style={styles.title}> Ready to login? </Text>
+            <Text style={styles.title}> Create new account here! </Text>
             <View style ={styles.inputView}> 
                 <TextInput style={styles.inputText} placeholder="netid" placeholderTextColor="#003f5c" onChangeText={text => setUsername(text)}/>
             </View>
             <View style ={styles.inputView}> 
                 <TextInput style={styles.inputText} placeholder="password" placeholderTextColor="#003f5c" onChangeText={text => setPassword(text)}/>
             </View>
-            <Button title="Login" style={styles.loginButton} onPress={pressLoginUpdate}> </Button>
-            <Button title="Create a new account" style={styles.loginButton} onPress={() => navigation.navigate('Account')}></Button>
+            <Button title="Account created" style={styles.loginButton} onPress={updateLoginState}></Button>
         </View>
 
-    );
+    ); 
 }
 
-export default LoginScreen;
+export default AccountScreen;
