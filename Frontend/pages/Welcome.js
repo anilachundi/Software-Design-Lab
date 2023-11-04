@@ -1,31 +1,26 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#10B981',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-});
+import NavBar from '../components/Navbar';
+
   
 
-
-
 const WelcomeScreen = () => {
-  const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <Text>Welcome!</Text>
       <Text>Start Tracking Your Meals</Text>
-      <Button
-        title="Go to My Recipes"
-        onPress={() => navigation.navigate('Recipe')}
-      />
-      <Text></Text>
+     <NavBar></NavBar>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#10B981',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default WelcomeScreen;
