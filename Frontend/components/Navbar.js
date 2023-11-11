@@ -7,7 +7,6 @@ const NavBar = () => {
     const navigation = useNavigation()
     return (
       <View style={styles.horizontalContainer}>
-
         <TouchableOpacity style={styles.verticalContainer} onPress={() => navigation.navigate('Welcome')}>
             <Ionicons name="home-outline" size={24} color="black" />            
             <Text style={styles.text}>Welcome</Text>
