@@ -6,12 +6,13 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const RecipeScreen = () => {
+  const recipeList = [{name: "Tiramisu", calories: 2000, id: 0}, {name: "fried rice", calories: 100, id: 1},];
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
+      <Text>Recipe List</Text>
+      <TableExample props={recipeList}/>
       <Button title="Add Recipe" onPress={() => navigation.navigate('AddRecipe')}> </Button>
-      <Text>Your Recipes</Text>
-      <TableExample />{}
       <NavBar></NavBar>
     </View>
   );
