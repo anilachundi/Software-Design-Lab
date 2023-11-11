@@ -204,6 +204,33 @@ app.post('/add-recipe', async (req, res)=> {
     }
 }); 
 
+// GET
+// http://localhost:8080/getUser
+/* Example JSON:
+    {
+	    "username" : "abcExampleUser",
+        "password" : "badPassword"
+    }
+*/
+app.get('/getUser', async (req, res) => {
+    try {
+        const un = req.body.username;
+        const pw = req.body.password;
+        const collection = req.db.collection('Users'); 
+        const user = await collection.find({username: un}).toArray();
+        if (user[0].password != pw) {
+            res.status(422).send({message : `wrong password`});
+        }
+        res.status(200).send(user); 
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({message : `An error ocurred trying to retrieve User from database`});
+    } finally {
+        if (req.db) {
+            await req.db.client.close();
+        }
+    }
+})
 
 app.get('/getAllUsers', async (req, res) => {
     try {
@@ -222,7 +249,6 @@ app.get('/getAllUsers', async (req, res) => {
 
 // GET
 // http://localhost:8080/getAllRecipes
-// MAKE SURE TO INCLUDE JSON OBJECT TO INSERT IN REQUEST BODY
 /* Example JSON:
     {
 	    "username" : "abcExampleUser"
