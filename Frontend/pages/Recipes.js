@@ -5,10 +5,11 @@ import NavBar from '../components/Navbar'
 
 
 const RecipeScreen = () => {
+  const recipeList = [{name: "Tiramisu", calories: 2000, id: 0}, {name: "fried rice", calories: 100, id: 1},];
   return (
     <View style={styles.container}>
-      <Text>Your Recipes</Text>
-      <TableExample />{}
+      <Text>Recipe List</Text>
+      <TableExample props={recipeList}/>
       <NavBar></NavBar>
     </View>
   );
