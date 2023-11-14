@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
         height:50,
         color:"white"
     },
+    errorMessage:{
+        height:50,
+        color:"red"
+    },
     loginButton:{
         width:"80%",
         backgroundColor:"#fb5b5a",
@@ -47,12 +51,15 @@ const LoginScreen = () => {
     const { updateLoginState } = useLoginContext();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [validUser, setValidUser] = useState(true);
     const navigation = useNavigation();
+    //validUser = true;
 
     async function pressLoginUpdate() {
         const newLoginState = {username : username, password : password};
         try {
-            await updateLoginState(newLoginState);
+            const isValidUser = await updateLoginState(newLoginState);
+            setValidUser(isValidUser);        
         } catch (err) {
             console.log(err);
         }
@@ -69,6 +76,9 @@ const LoginScreen = () => {
             </View>
             <Button title="Login" style={styles.loginButton} onPress={pressLoginUpdate}> </Button>
             <Button title="Create a new account" style={styles.loginButton} onPress={() => navigation.navigate('Account')}></Button>
+            <View>
+                {!(validUser) && <Text style={styles.errorMessage}> wrong username or password </Text>}
+            </View>
         </View>
 
     );

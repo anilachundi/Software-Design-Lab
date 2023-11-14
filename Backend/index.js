@@ -212,8 +212,9 @@ app.post('/add-recipe', async (req, res)=> {
         "password" : "badPassword"
     }
 */
-app.get('/getUser', async (req, res) => {
+app.post('/getUser', async (req, res) => {
     try {
+        console.log(req.body);
         const un = req.body.username;
         const pw = req.body.password;
         const collection = req.db.collection('Users'); 
