@@ -29,6 +29,10 @@ const styles = StyleSheet.create({
         height:50,
         color:"white"
     },
+    errorMessage:{
+        height:50,
+        color:"red"
+    },
     loginButton:{
         width:"80%",
         backgroundColor:"#fb5b5a",
@@ -45,11 +49,14 @@ const AccountScreen = () => {
     const { updateLoginState } = useLoginContext();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [userAdded, setValidUser] = useState(true);
+    const isnewUser = true;
 
     async function pressLoginUpdate() {
         const newLoginState = {username : username, password : password};
         try {
-            await updateLoginState(newLoginState);
+            const userAdded = await updateLoginState(newLoginState, isnewUser);
+            setValidUser(userAdded);
         } catch (err) {
             console.log(err);
         }
@@ -64,7 +71,10 @@ const AccountScreen = () => {
             <View style ={styles.inputView}> 
                 <TextInput style={styles.inputText} placeholder="password" placeholderTextColor="#003f5c" onChangeText={text => setPassword(text)}/>
             </View>
-            <Button title="Account created" style={styles.loginButton} onPress={updateLoginState}></Button>
+            <Button title="Account created" style={styles.loginButton} onPress={pressLoginUpdate}></Button>
+            <View>
+                {!(userAdded) && <Text style={styles.errorMessage}> username is taken, please try again </Text>}
+            </View>
         </View>
 
     ); 

@@ -53,12 +53,12 @@ const LoginScreen = () => {
     const [password, setPassword] = useState();
     const [validUser, setValidUser] = useState(true);
     const navigation = useNavigation();
-    //validUser = true;
+    const isnewUser = false;
 
     async function pressLoginUpdate() {
         const newLoginState = {username : username, password : password};
         try {
-            const isValidUser = await updateLoginState(newLoginState);
+            const isValidUser = await updateLoginState(newLoginState, isnewUser);
             setValidUser(isValidUser);        
         } catch (err) {
             console.log(err);
