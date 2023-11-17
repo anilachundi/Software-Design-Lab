@@ -64,6 +64,9 @@ const AddRecipeScreen = () =>  {
                         case "quantity":
                             ingredient.quantity = value
                             break
+                        case "unit": 
+                            ingredient.unit = value
+                            break
                     }
                 }
                 return ingredient;
