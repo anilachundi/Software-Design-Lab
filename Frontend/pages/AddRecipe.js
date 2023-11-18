@@ -3,6 +3,8 @@ import { useState } from "react";
 import IngredientAdder from "../components/IngredientAdder";
 import {TextButton, IconButton} from "../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from 'expo-secure-store';
+
 /*
 {
     "name" : "green onion",
@@ -32,8 +34,27 @@ const AddRecipeScreen = () =>  {
             ingredientList : recipe.ingredientList.filter(i => i.id !== itemId)
         });
     }
-    function addRecipe() {
-        console.log("Recipe added");
+    async function addRecipe() {
+        try {
+            let result = await SecureStore.getItemAsync('username');
+            console.log("Recipe added");
+            const data = {
+                username : result,
+                ingredients : recipe.ingredientList,
+                recipeName : recipe.recipeName
+            }
+            const headers = {
+                'Content-Type' : 'application/json'
+            }
+            const realEndpoint = process.env.ENDPOINT + "/add-recipe";
+            // TODO: call backend
+            /*
+                await axios.post(endpoint, data, headers);
+            */
+           console.log("recipe added");
+        } catch(err) {
+            console.log(err);
+        }
         navigateBack();
     }
     function navigateBack() {
