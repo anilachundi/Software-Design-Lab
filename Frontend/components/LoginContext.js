@@ -5,7 +5,7 @@ const LoginContext = createContext();
 
 //call if trying to login to existing account
 async function validateUser(newLoginState) {
-    isValidUser = false;
+    var isValidUser = false;
     try {
         const endpoint = 'http://localhost:8080/getUser';
         const data = {
@@ -19,6 +19,7 @@ async function validateUser(newLoginState) {
         await axios.post(endpoint, data, headers);
         isValidUser = true;
     } catch (err) {
+        console.log(err);
         isValidUser = false;
     }
 
