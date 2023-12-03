@@ -2,7 +2,8 @@ import { ScrollView, TextInput, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import IngredientAdder from "../components/IngredientAdder";
 import {TextButton, IconButton} from "../components/CustomButton";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native"
+
 import * as SecureStore from 'expo-secure-store';
 
 /*
@@ -34,6 +35,7 @@ const AddRecipeScreen = () =>  {
             ingredientList : recipe.ingredientList.filter(i => i.id !== itemId)
         });
     }
+
     async function addRecipe() {
         try {
             let result = await SecureStore.getItemAsync('username');
