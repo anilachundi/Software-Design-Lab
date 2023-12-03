@@ -2,9 +2,9 @@ import { ScrollView, TextInput, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import IngredientAdder from "../components/IngredientAdder";
 import {TextButton, IconButton} from "../components/CustomButton";
-import { useNavigation } from "@react-navigation/native"
-
+import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
 
 /*
 {
@@ -19,6 +19,7 @@ const AddRecipeScreen = () =>  {
         ingredientList : []
     });
     const [nextId, setNextId] = useState(0)
+    const [loginState, setLoginState] = useState(false);
     const unitList = ['cups', 'oz', 'g', 'tbsp'];
     const navigation = useNavigation();
 
@@ -38,27 +39,30 @@ const AddRecipeScreen = () =>  {
 
     async function addRecipe() {
         try {
-            let result = await SecureStore.getItemAsync('username');
-            console.log("Recipe added");
+
+            const result = await SecureStore.getItemAsync('username');
+            console.log(recipe.ingredientList);
+            console.log("username: " + result);
             const data = {
-                username : result,
-                ingredients : recipe.ingredientList,
-                recipeName : recipe.recipeName
+                recipe : {
+                    user_id : result,
+                    name : recipe.recipeName,
+                    ingredient_list : recipe.ingredientList,
+                },
+                username : result
             }
             const headers = {
                 'Content-Type' : 'application/json'
             }
-            const realEndpoint = process.env.ENDPOINT + "/add-recipe";
-            // TODO: call backend
-            /*
-                await axios.post(endpoint, data, headers);
-            */
+            const endpoint = 'http://localhost:8080/add-recipe';
+            await axios.post(endpoint, data, headers);
            console.log("recipe added");
         } catch(err) {
             console.log(err);
         }
         navigateBack();
     }
+
     function navigateBack() {
         navigation.navigate('Recipe');
     }

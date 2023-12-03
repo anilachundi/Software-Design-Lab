@@ -4,16 +4,18 @@ import TableExample from '../components/DataTable';
 import NavBar from '../components/Navbar'
 import { useNavigation } from '@react-navigation/native';
 
-import { ScrollView, TextInput, StyleSheet, View } from "react-native";
-import { useState } from "react";
-import IngredientAdder from "../components/IngredientAdder";
-import {TextButton, IconButton} from "../components/CustomButton";
-import { useNavigation } from "@react-navigation/native";
-/*
-{
-    "name" : "green onion",
-    "quantity" : 10,
-    "unit" : 'g'
+
+const RecipeScreen = () => {
+  const recipeList = [{name: "Tiramisu", calories: 2000, id: 0}, {name: "fried rice", calories: 100, id: 1},];
+  const navigation = useNavigation();
+  return (
+    <View style={styles.container}>
+      <Text>Recipe List</Text>
+      <TableExample props={recipeList}/>
+      <Button title="Add Recipe" onPress={() => navigation.navigate('AddRecipe')}> </Button>
+      <NavBar></NavBar>
+    </View>
+  );
 }
 */
 const AddRecipeScreen = () =>  {
