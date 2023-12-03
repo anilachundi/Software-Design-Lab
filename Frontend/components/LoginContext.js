@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 
 const LoginContext = createContext();

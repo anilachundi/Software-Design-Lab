@@ -98,7 +98,7 @@ app.post('/add-user', async(req, res)=> {
         }); 
     } catch (err) {
         console.log(err); 
-        res.status(422).send({message : "an error occurred attempting to add user"}); 
+        //res.status(422).send({message : "an error occurred attempting to add user"}); 
     } finally {
         // closes MongoDB client
         if (req.db) {
@@ -257,10 +257,10 @@ app.get('/getAllUsers', async (req, res) => {
 	    "username" : "abcExampleUser"
     }
 */
-app.get('/getAllRecipes', async (req, res) => {
+app.post('/getAllRecipes', async (req, res) => {
     try {
         const user = req.body.username;
-
+        console.log(user);
         const collection = req.db.collection('Recipes'); 
         
         const items = await collection.find({user_id: user}).toArray();
