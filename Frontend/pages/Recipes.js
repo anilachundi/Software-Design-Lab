@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
+import { useState, useEffect } from "react";
 import React from 'react';
 import TableExample from '../components/DataTable'; 
 import NavBar from '../components/Navbar'
@@ -12,13 +13,26 @@ const RecipeScreen = () => {
     useEffect(() => {
       const getAllRecipes = async () => {
         const result = await SecureStore.getItemAsync('username');
+        console.log("username: " + result);
         try {
-          const response = await axios.get('http://localhost:8080/getAllRecipes', {
-            params: {
-              username: {result},
-            },
-          });
+          const params = {
+              username : result
+          }
+          const headers = {
+              'Content-Type' : 'application/json'
+          }
+          const endpoint = 'http://localhost:8080/getAllRecipes';
+          const response = await axios.post(endpoint, params, headers);
+          for (let i = 0; i < response.data.length; i++) {
+            let sum = 0;
+            nutrition_array = response.data[i].nutrition_data;
+            for (let j = 0; j < nutrition_array.length; j++) {
+              sum += nutrition_array[j];
+            }
+            response.data[i].calories = parseInt(sum);
+          }
           setRecipeList(response.data);
+          console.log(response.data);
         } catch (err) {
           console.error('error retrieving recipes:', err);
         }
