@@ -39,6 +39,7 @@ const AddRecipeScreen = () =>  {
 
     async function addRecipe() {
         try {
+
             const result = await SecureStore.getItemAsync('username');
             console.log(recipe.ingredientList);
             console.log("username: " + result);
