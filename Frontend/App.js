@@ -12,7 +12,7 @@ function StackChooser() {
   const { loginState } = useLoginContext();
   return (
     <NavigationContainer>
-        {loginState ?  <AuthStack></AuthStack> : <RootStack></RootStack>}
+        {!loginState ?  <AuthStack></AuthStack> : <RootStack></RootStack>}
     </NavigationContainer>
   )
 }

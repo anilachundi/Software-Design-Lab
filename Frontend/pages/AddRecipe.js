@@ -3,6 +3,9 @@ import { useState } from "react";
 import IngredientAdder from "../components/IngredientAdder";
 import {TextButton, IconButton} from "../components/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
+
 /*
 {
     "name" : "green onion",
@@ -16,6 +19,7 @@ const AddRecipeScreen = () =>  {
         ingredientList : []
     });
     const [nextId, setNextId] = useState(0)
+    const [loginState, setLoginState] = useState(false);
     const unitList = ['cups', 'oz', 'g', 'tbsp'];
     const navigation = useNavigation();
 
@@ -32,10 +36,32 @@ const AddRecipeScreen = () =>  {
             ingredientList : recipe.ingredientList.filter(i => i.id !== itemId)
         });
     }
-    function addRecipe() {
-        console.log("Recipe added");
+
+    async function addRecipe() {
+        try {
+            const result = await SecureStore.getItemAsync('username');
+            console.log(recipe.ingredientList);
+            console.log("username: " + result);
+            const data = {
+                recipe : {
+                    user_id : result,
+                    name : recipe.recipeName,
+                    ingredient_list : recipe.ingredientList,
+                },
+                username : result
+            }
+            const headers = {
+                'Content-Type' : 'application/json'
+            }
+            const endpoint = 'http://localhost:8080/add-recipe';
+            await axios.post(endpoint, data, headers);
+           console.log("recipe added");
+        } catch(err) {
+            console.log(err);
+        }
         navigateBack();
     }
+
     function navigateBack() {
         navigation.navigate('Recipe');
     }
@@ -63,6 +89,9 @@ const AddRecipeScreen = () =>  {
                             break;
                         case "quantity":
                             ingredient.quantity = value
+                            break
+                        case "unit": 
+                            ingredient.unit = value
                             break
                     }
                 }

@@ -115,7 +115,7 @@ app.post('/add-user', async(req, res)=> {
 	    "recipe" : {
 		    "user_id" : "abcexampleid",
 		    "name" : "Fried Rice",
-		    "ingredient_list" : [ "rice", "carrot", "onion"]
+		    "ingredient_list" : [ "rice", "onion"],
 	    },
 	    "username" : "abcExampleUser"
     }
@@ -142,9 +142,10 @@ app.post('/add-recipe', async (req, res)=> {
     for (const ingredient of ingredients) {
         try {
             // Make a get request to v2/search/instant to find item id
+            console.log(ingredient.name);
             const idResponse = await axios.get(apiIDEndpoint, {
                 params: {
-                    query: ingredient,
+                    query: ingredient.name,
                 },
                 headers,
             });
@@ -168,12 +169,13 @@ app.post('/add-recipe', async (req, res)=> {
     }
 
     //finding specified user
-    console.log(userToInsert);
+    console.log("userToInsert: " + userToInsert);
     try {
         const users = req.db.collection("Users");
         console.log("connected to users collection");
         const query = { username: userToInsert };
         const user = await users.findOne(query);
+        console.log("user: " + user);
         var queried_user_id = user.username;
     } catch (err) {
         console.log(err);

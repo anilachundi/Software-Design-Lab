@@ -6,20 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const RecipeScreen = () => {
-<<<<<<< HEAD
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Button title="Add Recipe" onPress={() => navigation.navigate('AddRecipe')}> </Button>
       <Text>Your Recipes</Text>
-      <TableExample />{}
-=======
-  const recipeList = [{name: "Tiramisu", calories: 2000, id: 0}, {name: "fried rice", calories: 100, id: 1},];
-  return (
-    <View style={styles.container}>
-      <Text>Recipe List</Text>
       <TableExample props={recipeList}/>
->>>>>>> 60852dd (Working on DataTable)
       <NavBar></NavBar>
     </View>
   );
