@@ -4,27 +4,115 @@ import TableExample from '../components/DataTable';
 import NavBar from '../components/Navbar'
 import { useNavigation } from '@react-navigation/native';
 
-
-const RecipeScreen = () => {
-  const recipeList = [{name: "Tiramisu", calories: 2000, id: 0}, {name: "fried rice", calories: 100, id: 1},];
-  const navigation = useNavigation();
-  return (
-    <View style={styles.container}>
-      <Text>Recipe List</Text>
-      <TableExample props={recipeList}/>
-      <Button title="Add Recipe" onPress={() => navigation.navigate('AddRecipe')}> </Button>
-      <NavBar></NavBar>
-    </View>
-  );
+import { ScrollView, TextInput, StyleSheet, View } from "react-native";
+import { useState } from "react";
+import IngredientAdder from "../components/IngredientAdder";
+import {TextButton, IconButton} from "../components/CustomButton";
+import { useNavigation } from "@react-navigation/native";
+/*
+{
+    "name" : "green onion",
+    "quantity" : 10,
+    "unit" : 'g'
 }
+*/
+const AddRecipeScreen = () =>  {
+    const [recipe, setRecipe] = useState({
+        recipeName : undefined,
+        ingredientList : []
+    });
+    const [nextId, setNextId] = useState(0)
+    const unitList = ['cups', 'oz', 'g', 'tbsp'];
+    const navigation = useNavigation();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+    /*
+    General planning form: 
+        "Recipe Name" header text input - delete button
+        for every element:
+            checkbox, text entry for name, small text entry for quantity, dropdown for unit
+        add button
+    */
+    function filterList(itemId) {
+        setRecipe({
+            ...recipe,
+            ingredientList : recipe.ingredientList.filter(i => i.id !== itemId)
+        });
+    }
+    function addRecipe() {
+        console.log("Recipe added");
+        navigateBack();
+    }
+    function navigateBack() {
+        navigation.navigate('Recipe');
+    }
 
-export default RecipeScreen;
+    function addIngredient() {
+        console.log(nextId);
+        const newIngredient = {id : nextId, name : undefined, quantity : undefined, unit : undefined}
+        const newIngredientList = recipe.ingredientList;
+        newIngredientList.push(newIngredient); 
+        setRecipe({
+            ...recipe,
+            ingredientList : newIngredientList
+        })
+        console.log("ingredient added");
+        setNextId(nextId + 1);
+    }
+    function editIngredient(ingredientId, type, value) {
+        setRecipe({
+            ...recipe,
+            ingredientList: recipe.ingredientList.map((ingredient) => {
+                if (ingredient.id === ingredientId) {
+                    switch(type) {
+                        case "name":
+                            ingredient.name = value
+                            break;
+                        case "quantity":
+                            ingredient.quantity = value
+                            break
+                    }
+                }
+                return ingredient;
+            })
+        })
+    }
+    return (
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <View style={styles.flexItem}>
+                <IconButton color="#00FF00" ioniconsName= "add" pressFunc={addIngredient}></IconButton>
+                <TextInput style={styles.longInput} onChangeText={(e)=>{setRecipe({...recipe, recipeName: e});}} placeholder="Recipe Name"></TextInput>
+            </View>
+            <View>
+                {recipe.ingredientList.map((ingredient, i) => {
+                    return (<IngredientAdder key={i} ingredient={ingredient} deleteFunc={filterList} editFunc={editIngredient}></IngredientAdder>)
+                })}
+            </View>
+            <View style={styles.flexItem}>
+                <TextButton color="#FF0000" width={150} buttonText="Exit" ioniconsName="arrow-back" pressFunc={navigateBack}></TextButton>
+                <TextButton color="#00FF00" width={150} buttonText="Submit Recipe" ioniconsName="add" pressFunc={addRecipe}></TextButton>
+            </View>
+            
+        </ScrollView>
+        
+    );
+  }
+  
+  const styles = StyleSheet.create({
+    scrollContainer : {
+        marginTop: 50,
+    },
+    flexItem: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+    longInput: {
+        height: 40,
+        width: 150,
+        borderWidth: 1,
+        padding: 10,
+    },
+  })
+
+
+  export default AddRecipeScreen;
